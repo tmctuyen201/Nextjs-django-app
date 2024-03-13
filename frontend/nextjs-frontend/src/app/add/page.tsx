@@ -1,22 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import axiosInstance from "../../../utils/axios";
 export interface MenuData {
   name: string;
   price: string;
 }
 async function createMenu(data: MenuData) {
-  const res = await fetch("http://127.0.0.1:8000/api/menu/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) {
-    throw new Error("Failed to create data");
-  }
-  return res.json();
+  axiosInstance
+    .post("http://127.0.0.1:8000/api/menu/", data)
+    .then((res) => res.data)
+    .catch((error) => console.log(error));
 }
 
 const Page = () => {
@@ -29,7 +23,7 @@ const Page = () => {
     setIsLoading(true);
     createMenu(formData)
       .then(() => {
-        router.replace("/?action=add");
+        router.replace("/homepage/?action=add");
       })
       .catch(() => {
         setError("An error occurred");
