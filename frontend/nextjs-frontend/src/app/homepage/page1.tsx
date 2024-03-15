@@ -1,24 +1,23 @@
-"use client"
-import React, { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+// import MenuItem from "../../components/MenuItems.tsx";
 import axiosInstance from "../../../utils/axios.ts";
 import AuthenticatedRoute from "../../components/AuthenticatedRoute.tsx";
+import RestaurantItem from "../../components/RestaurantItems.tsx";
 import axios from "axios";
-import RestaurantItem from '../../components/RestaurantItems.tsx';
-// Define Restaurant type
+import "../style.css"
 
 interface ItemProps {
   id: number;
   name: string;
   address: string;
-  rating: number
 }
 interface displaySuccessMessageProps {
   show: boolean;
   type: string | null;
 }
-const HomePage: React.FC = () => {
-  // State to track the selected restaurant
+export default function HomePage() {
   const [restaurant, setRestaurant] = useState([]);
   const router = useRouter();
   const params = useSearchParams();
@@ -43,7 +42,6 @@ const HomePage: React.FC = () => {
       router.replace("/homepage");
     }
   }, [params, router]);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       if (displaySuccessMessage.show) {
@@ -73,25 +71,37 @@ const HomePage: React.FC = () => {
     }
     return null;
   };
+
   return (
     <AuthenticatedRoute>
-      <div className="homepage">
-        <div className='header'>
-          <h1 className='heading'>Choose a Restaurant</h1>
-          <button className="add-button" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-        <div className="restaurant-list-1">
-          {restaurant.map((item: ItemProps) => (
-            <RestaurantItem id={item.id} name={item.name} address={item.address} rating={item.rating} onClick={() => router.push(`/restaurant/${item.id}`)} />
-          ))}
-        </div>
+      <div className="styles.container">
+        <button className="add-button" >
+          Add
+        </button>
+        <button className="add-button" onClick={handleLogout}>
+          Logout
+        </button>
+        {displaySuccessMessage.show && (
+          <p className="success-message">
+            {displaySuccessMessage.type === "add" ? "Added a" : "Modified item"}
+          </p>
+        )}
+        <h1>Choose a Restaurant</h1>
+        {restaurant ? (
+          restaurant.map((item: ItemProps) => (
+            <RestaurantItem
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              address={item.address}
+              onEdit={() => router.push(`/update/${item.id}`)}
+              onDelete={handleDelete}
+            />
+          ))
+        ) : (
+          <p>Loading ... </p>
+        )}
       </div>
-
     </AuthenticatedRoute>
   );
-};
-
-export default HomePage;
-
+}

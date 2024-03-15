@@ -24,35 +24,39 @@ const LoginPage: React.FC = () => {
       console.error("Login failed: ", error.message);
     }
   };
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleLogin();
+    }
+  };
   return (
-    <div>
-      <h2>Login</h2>
-      <form>
-        <label>
-          Username:{" "}
-          <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </label>
+    <div className="container">
+      <h1>Login</h1>
+      <div className="formContainer">
+        <input
+          value={username}
+          placeholder="Username"
+          onChange={(e) => setUsername(e.target.value)}
+          className="inputField"
+        />
         <br />
-        <label>
-          Password:{" "}
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="inputField"
+          onKeyDown={handleKeyDown}
+        />
         <br />
-        <button type="button" onClick={handleLogin}>
+        <button type="button" onClick={handleLogin} className="loginButton">
           {" "}
           Login
         </button>
         <p>
           Don't have an account? <Link href="/register">Register</Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 };

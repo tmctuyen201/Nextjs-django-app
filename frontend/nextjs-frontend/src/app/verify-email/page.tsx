@@ -7,6 +7,7 @@ const VerifyEmailPage = () => {
   const handleOtpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOtp(event.target.value);
   };
+  const ;
   return (
     <div>
       <p>Enter the OTP sent to your email</p>

@@ -4,8 +4,10 @@ interface RestaurantItemProps {
   id: number;
   name: string;
   address: string;
-  onEdit: () => void;
-  onDelete: (id: number) => void;
+  rating: number
+  onClick: () => void
+  // onEdit: () => void;
+  // onDelete: (id: number) => void;
 }
 async function deleteMenu(id: number) {
   axiosInstance
@@ -17,29 +19,20 @@ const RestaurantItem = ({
   id,
   name,
   address,
-  onEdit,
-  onDelete,
+  rating,
+  onClick
+  // onEdit,
+  // onDelete,
 }: RestaurantItemProps) => {
   return (
-    <div className="menu-item" data-id={id}>
-      <div className="menu-item-info">
-        <Link href={`/restaurant/${id}`}>
-          <div className="menu-item-name">{name}</div>
-          <div className="menu-item-price">{address}</div>
-        </Link>
+    <div key={id} className="restaurant-item-1" onClick={onClick}>
+      <div className="restaurant-image-container-1">
+        <img src="https://gigamall.com.vn/data/2019/09/20/12144388_LOGO-PHUC-LONG-500x500.jpg" alt={name} className="restaurant-image-1" width="200" height="200" />
       </div>
-      <div className="menu-item-actions">
-        <button className="edit-button" onClick={onEdit}>
-          Edit
-        </button>
-        <button
-          className="delete-button"
-          onClick={() => {
-            deleteMenu(id).then(() => onDelete(id));
-          }}
-        >
-          Delete
-        </button>
+      <div className="restaurant-info-1">
+        <h2>{name}</h2>
+        <p>address: {address}</p>
+        <p>rating: {rating}</p>
       </div>
     </div>
   );

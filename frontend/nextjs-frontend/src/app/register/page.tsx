@@ -24,44 +24,47 @@ const RegisterPage: React.FC = () => {
       console.error("Login failed: ", error.message);
     }
   };
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleRegister();
+    }
+  };
   return (
-    <div>
-      <h2>Register new account</h2>
-      <form>
-        <label>
-          Username:{" "}
-          <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </label>
+    <div className="container">
+      <h1>Register new account</h1>
+      <div className="formContainer">
+        <input
+          value={username}
+          placeholder="Username"
+          onChange={(e) => setUsername(e.target.value)}
+          className="inputField"
+        />
         <br />
-        <label>
-          Email:{" "}
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="inputField"
+        />
         <br />
-        <label>
-          Password:{" "}
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="inputField"
+          onKeyDown={handleKeyDown}
+        />
         <br />
-        <button type="button" onClick={handleRegister}>
+        <button type="button" onClick={handleRegister} className="loginButton">
           {" "}
           Register
         </button>
         <p>
           Already have an account? <Link href="/login">Log in</Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 };
